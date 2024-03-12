@@ -35,8 +35,10 @@ winget, winstat, pid, ahk_exe granblue_fantasy_relink.exe
 if(winstat){
 	guicontrol, hide, Stop
 	guicontrol, show, Run
+	guicontrol, hide, miss
+	guicontrol, hide, done
+	guicontrol, show, get
 	WinWaitClose, ahk_exe granblue_fantasy_relink.exe
-	gosub savebak
 }else{
 	guicontrol, hide, Run
 	guicontrol, show, Stop
@@ -51,9 +53,10 @@ SavPath1 = C:\Users\%A_UserName%\AppData\Local\GBFR\Saved\SaveGames\SaveData1.da
 SavPath2 = C:\Users\%A_UserName%\AppData\Local\GBFR\Saved\SaveGames\SaveData2.dat
 SavPath3 = C:\Users\%A_UserName%\AppData\Local\GBFR\Saved\SaveGames\SaveData3.dat
 if (fileexist(SavPath1) or fileexist(SavPath2)  or fileexist(SavPath3)){
+	gosub savebak
 	guicontrol, hide, miss
-	guicontrol, hide, done
-	guicontrol, show, get
+	guicontrol, hide, get
+	guicontrol, show, done
 } else {
 	guicontrol, hide, get
 	guicontrol, hide, done
