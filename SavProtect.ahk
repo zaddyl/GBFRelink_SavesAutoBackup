@@ -12,7 +12,7 @@ lkpath = %A_appdata%\Microsoft\Windows\Start Menu\Programs\Startup\savprotect.ln
 if(fileexist(lkpath)){
 	Guicontrol,, bootset, 1
 }
-Gui Show, w250 h80, GBFR存檔保護
+Gui Show, w250 h108, GBFR存檔保護
 Gui color, black
 Gui Add, text, x140 y12 vRun cGreen, 運行中
 guicontrol, hide, Run
@@ -24,8 +24,10 @@ Gui Add, text, x140 y32 vMiss cGray, 未找到
 guicontrol, hide, Miss
 Gui Add, text, x140 y32 vDone cGreen, 已備份
 guicontrol, hide, Done
+gui add, button, x163 y72 cwhite gsavestat, 手動備份
+iniread, bakhk, %A_ScriptDir%\Settings.ini, main, bakupHK, f11
+gui add, hotkey, x22 y73 vbakhk ghkswitch, %bakhk%
 gui, -0x20000
-
 goto start
 Return
 
@@ -44,7 +46,6 @@ if(winstat){
 	guicontrol, show, Stop
 	winwait, ahk_exe granblue_fantasy_relink.exe
 }
-Gui Show, w250 h80, GBFR存檔保護
 goto start
 return
 
@@ -57,6 +58,7 @@ if (fileexist(SavPath1) or fileexist(SavPath2)  or fileexist(SavPath3)){
 	guicontrol, hide, miss
 	guicontrol, hide, get
 	guicontrol, show, done
+	gosub mention
 } else {
 	guicontrol, hide, get
 	guicontrol, hide, done
@@ -101,6 +103,25 @@ loop, Files, %A_ScriptDir%\Bak\*, D
      }
      i++	
 }
+return
+
+mention:
+Gui Show, w250 h108, GBFR存檔保護
+l=0
+while(l<4){
+	gui, font, cred
+	guicontrol, Font, done
+	sleep 100
+	gui, font, cgreen
+	guicontrol, Font, done
+	sleep 100
+	l++
+}
+return
+
+hkswitch:
+hotkey, %bakhk%, savestat
+iniwrite, %bakhk%, %A_ScriptDir%\Settings.ini, main, bakupHK
 return
 
 guiescape:
