@@ -1,4 +1,5 @@
-﻿#SingleInstance Force
+﻿;by bilibili@長野碎毛semo
+#SingleInstance Force
 #NoEnv
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
