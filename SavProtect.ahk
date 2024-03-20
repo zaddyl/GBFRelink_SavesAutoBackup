@@ -3,6 +3,7 @@
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
 DetectHiddenWindows, On
+uac()
 
 Gui Font, s9, Segoe UI
 Gui Add, text, x10 y12 cwhite, 遊戲狀態：
@@ -149,6 +150,21 @@ hkswitch:
 hotkey, %bakhk%, savestat
 iniwrite, %bakhk%, %A_ScriptDir%\Settings.ini, main, bakupHK
 return
+
+uac(){
+	full_command_line := DllCall("GetCommandLine", "str")
+	if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
+	{
+		try
+		{
+			if A_IsCompiled
+				Run *RunAs "%A_ScriptFullPath%" /restart
+			else
+				Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+		}
+		ExitApp
+	}
+}
 
 guiescape:
 GuiClose:
